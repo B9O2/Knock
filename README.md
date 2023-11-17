@@ -1,16 +1,12 @@
-package knock
+# Knock
 
-import (
-	"Knock/options"
-	"fmt"
-	"github.com/B9O2/rawhttp"
-	"github.com/B9O2/rawhttp/client"
-	"testing"
-	"time"
-)
+- 即使TCP连接失败也可以获取LocalAddr与RemoteAddr
+- 重定向可以拿到过程中的所有LocalAddr
+- 可以指定网络接口(Net Interface)
+- 支持中间件，可以在写入TCP连接前进行操作
 
-func TestNewClient(t *testing.T) {
-	k := NewClient()
+```go
+k := NewClient()
 	req := &BaseRequest{
 		method:  GET,
 		uri:     "",
@@ -34,4 +30,5 @@ func TestNewClient(t *testing.T) {
 		return
 	}
 	fmt.Println(resp.String())
-}
+```
+
