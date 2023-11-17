@@ -1,0 +1,4 @@
+go 1.20
+
+use /Users/restr0/Projects/GolangProjects/rawhttp
+use .
