@@ -1,24 +1,23 @@
 package knock
 
 import (
-	"Knock/options"
 	"fmt"
+	"github.com/B9O2/Knock/options"
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"testing"
-	"time"
 )
 
 func TestNewClient(t *testing.T) {
 	k := NewClient()
 	req := &BaseRequest{
 		method:  GET,
-		uri:     "",
+		uri:     "/B9O2/Knock",
 		headers: nil,
 		body:    nil,
 	}
-	s, err := k.Knock("192.168.1.14", 81, false, req,
-		options.SetProxyOpt("http://127.0.0.1:8080", 1*time.Second),
+	s, err := k.Knock("github.com", 443, true, req,
+		//options.SetProxyOpt("http://127.0.0.1:8080", 1*time.Second),
 		options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request, conn rawhttp.Conn) {
 			fmt.Println(req.Method, req.Headers, opts.FastDialerOpts.Dialer.LocalAddr)
 		})),

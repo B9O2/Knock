@@ -1,10 +1,10 @@
 package knock
 
 import (
-	"Knock/components"
-	"Knock/options"
 	"bytes"
 	"fmt"
+	"github.com/B9O2/Knock/components"
+	"github.com/B9O2/Knock/options"
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"github.com/projectdiscovery/fastdialer/fastdialer"
