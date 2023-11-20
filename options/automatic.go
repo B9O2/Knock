@@ -1,7 +1,7 @@
 package options
 
 import (
-	"github.com/B9O2/Knock/components"
+	"github.com/B9O2/knock/components"
 	"github.com/B9O2/rawhttp"
 	"github.com/projectdiscovery/fastdialer/fastdialer"
 )

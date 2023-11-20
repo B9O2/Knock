@@ -3,8 +3,8 @@ package knock
 import (
 	"bytes"
 	"fmt"
-	"github.com/B9O2/Knock/components"
-	"github.com/B9O2/Knock/options"
+	"github.com/B9O2/knock/components"
+	"github.com/B9O2/knock/options"
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"github.com/projectdiscovery/fastdialer/fastdialer"

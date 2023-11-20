@@ -1,4 +1,4 @@
-module github.com/B9O2/Knock
+module github.com/B9O2/knock
 
 go 1.20
 

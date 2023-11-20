@@ -2,7 +2,7 @@ package knock
 
 import (
 	"fmt"
-	"github.com/B9O2/Knock/options"
+	"github.com/B9O2/knock/options"
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"testing"
