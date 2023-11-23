@@ -48,3 +48,12 @@ func (br *BaseRequest) Method() Method {
 func (br *BaseRequest) URI() string {
 	return br.uri
 }
+
+func NewBaseRequest(method Method, uri string, headers map[string][]string, body []byte) *BaseRequest {
+	return &BaseRequest{
+		method:  method,
+		uri:     uri,
+		headers: headers,
+		body:    body,
+	}
+}
