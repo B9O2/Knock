@@ -6,19 +6,21 @@ import (
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"testing"
+	"time"
 )
 
 func TestNewClient(t *testing.T) {
 	k := NewClient()
 	req := &BaseRequest{
-		method:  GET,
-		uri:     "/B9O2/Knock",
+		method:  POST,
+		uri:     "/word",
 		headers: nil,
-		body:    nil,
+		body:    []byte("hello"),
 	}
-	s, err := k.Knock("github.com", 443, true, req,
-		//options.SetProxyOpt("http://127.0.0.1:8080", 1*time.Second),
-		options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request, conn rawhttp.Conn) {
+	s, err := k.Knock("n0p3.cn", 443, true, req,
+		options.SetProxyOpt("http://127.0.0.1:8080", 5*time.Second),
+		options.SetTimeoutOpt(15*time.Second),
+		options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request) {
 			fmt.Println(req.Method, req.Headers, opts.FastDialerOpts.Dialer.LocalAddr)
 		})),
 	)

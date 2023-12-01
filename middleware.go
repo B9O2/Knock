@@ -6,14 +6,14 @@ import (
 )
 
 type BaseMiddleware struct {
-	f func(rawhttp.Options, *client.Request, rawhttp.Conn)
+	f func(rawhttp.Options, *client.Request)
 }
 
-func (bm *BaseMiddleware) Handle(opts rawhttp.Options, req *client.Request, conn rawhttp.Conn) {
-	bm.f(opts, req, conn)
+func (bm *BaseMiddleware) Handle(opts rawhttp.Options, req *client.Request) {
+	bm.f(opts, req)
 }
 
-func NewBaseMiddleware(f func(rawhttp.Options, *client.Request, rawhttp.Conn)) *BaseMiddleware {
+func NewBaseMiddleware(f func(rawhttp.Options, *client.Request)) *BaseMiddleware {
 	return &BaseMiddleware{
 		f: f,
 	}

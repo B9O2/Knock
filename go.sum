@@ -1,6 +1,8 @@
 cloud.google.com/go/compute/metadata v0.2.0/go.mod h1:zFmK7XCadkQkj6TtorcaGlCW1hT1fIilQDwofLpJ20k=
 github.com/B9O2/rawhttp v0.1.27 h1:vCaS7oruFRNX/ooKLTzais45PDJbij/AlHXwBBiMQJg=
 github.com/B9O2/rawhttp v0.1.27/go.mod h1:yKn81/NQpL9HOjoCqhzfFAuMetZC6Iq5ChRff6m2+F8=
+github.com/B9O2/rawhttp v0.1.28 h1:kX8T7nzKZmV9YpPGE4hDhjBh76cSJviv2lUCKatENQU=
+github.com/B9O2/rawhttp v0.1.28/go.mod h1:yKn81/NQpL9HOjoCqhzfFAuMetZC6Iq5ChRff6m2+F8=
 github.com/Mzack9999/go-http-digest-auth-client v0.6.1-0.20220414142836-eb8883508809 h1:ZbFL+BDfBqegi+/Ssh7im5+aQfBRx6it+kHnC7jaDU8=
 github.com/Mzack9999/go-http-digest-auth-client v0.6.1-0.20220414142836-eb8883508809/go.mod h1:upgc3Zs45jBDnBT4tVRgRcgm26ABpaP7MoTSdgysca4=
 github.com/akrylysov/pogreb v0.10.1 h1:FqlR8VR7uCbJdfUob916tPM+idpKgeESDXOA1K0DK4w=

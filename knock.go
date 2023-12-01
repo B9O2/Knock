@@ -63,7 +63,7 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 		remoteAddr = address
 		return nil
 	}
-	sendOpts.Middlewares = append(sendOpts.Middlewares, NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request, conn rawhttp.Conn) {
+	sendOpts.Middlewares = append(sendOpts.Middlewares, NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request) {
 		s.ci.localAddr = append(s.ci.localAddr, opts.FastDialerOpts.Dialer.LocalAddr.(*net.TCPAddr))
 	}))
 
