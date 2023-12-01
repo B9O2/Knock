@@ -15,6 +15,7 @@ import (
 
 type Client struct {
 	clientOpts rawhttp.Options
+	opts       []options.Option
 }
 
 func (c *Client) parseOptions(opts ...options.Option) (*options.ClientOptions, error) {
@@ -51,7 +52,7 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 	}
 
 	targetURL := fmt.Sprintf("%s://%s:%d", protocol, host, port)
-	sendOpts, err := c.parseOptions(opts...)
+	sendOpts, err := c.parseOptions(append(c.opts, opts...)...)
 	if err != nil {
 		return
 	}
@@ -104,8 +105,8 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 	return
 }
 
-func NewClient() *Client {
-	opts := rawhttp.Options{
+func NewClient(opts ...options.Option) *Client {
+	rawHTTPOpts := rawhttp.Options{
 		Timeout:                5 * time.Second,
 		FollowRedirects:        true,
 		MaxRedirects:           10,
@@ -120,7 +121,8 @@ func NewClient() *Client {
 		FastDialerOpts:         &fastdialer.DefaultOptions,
 	}
 	c := Client{
-		clientOpts: opts,
+		clientOpts: rawHTTPOpts,
+		opts:       opts,
 	}
 	return &c
 }
