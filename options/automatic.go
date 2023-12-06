@@ -2,8 +2,6 @@ package options
 
 import (
 	"github.com/B9O2/knock/components"
-	"github.com/B9O2/rawhttp"
-	"github.com/projectdiscovery/fastdialer/fastdialer"
 )
 
 type AutomaticOpt struct {
@@ -18,7 +16,7 @@ func (a AutomaticOpt) Detail() (string, []string) {
 	}
 }
 
-func (a AutomaticOpt) Handle(opts *rawhttp.Options, _ *fastdialer.Options) error {
+func (a AutomaticOpt) Handle(opts *ClientOptions) error {
 	opts.AutomaticHostHeader = a.HostHeader
 	opts.AutomaticContentLength = a.ContentLength
 	return nil

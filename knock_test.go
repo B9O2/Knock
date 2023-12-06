@@ -18,7 +18,7 @@ func TestNewClient(t *testing.T) {
 		body:    []byte("hello"),
 	}
 	s, err := k.Knock("n0p3.cn", 443, true, req,
-		options.SetProxyOpt("http://127.0.0.1:8080", 5*time.Second),
+		//options.SetProxyOpt("http://127.0.0.1:8080", 5*time.Second),
 		options.SetTimeoutOpt(15*time.Second),
 		options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request) {
 			fmt.Println(req.Method, req.Headers, opts.FastDialerOpts.Dialer.LocalAddr)
