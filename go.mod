@@ -3,7 +3,7 @@ module github.com/B9O2/knock
 go 1.20
 
 require (
-	github.com/B9O2/rawhttp v0.1.29
+	github.com/B9O2/rawhttp v0.1.30
 	github.com/projectdiscovery/fastdialer v0.0.44
 )
 

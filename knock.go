@@ -75,6 +75,7 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 		string(req.Method()),
 		targetURL,
 		req.URI(),
+		client.Version(req.Version()),
 		req.Headers(),
 		bytes.NewReader(req.Body()),
 		sendOpts.Options,

@@ -15,6 +15,7 @@ func TestNewClient(t *testing.T) {
 		method:  POST,
 		uri:     "/word",
 		headers: nil,
+		version: HTTP_1_0,
 		body:    []byte("hello"),
 	}
 	s, err := k.Knock("n0p3.cn", 443, true, req,
