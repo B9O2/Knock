@@ -8,5 +8,5 @@ type Option interface {
 }
 
 type ClientOptions struct {
-	*rawhttp.Options
+	rawhttp.Options
 }

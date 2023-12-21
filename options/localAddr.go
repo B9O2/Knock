@@ -18,7 +18,7 @@ func (l LocalAddrOpt) Detail() (string, []string) {
 }
 
 func (l LocalAddrOpt) Handle(opts *ClientOptions) error {
-	opts.FastDialerOpts.Dialer.LocalAddr = l.addr
+	opts.LocalAddr = l.addr
 	return nil
 }
 

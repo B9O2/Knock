@@ -1,10 +1,8 @@
 cloud.google.com/go/compute/metadata v0.2.0/go.mod h1:zFmK7XCadkQkj6TtorcaGlCW1hT1fIilQDwofLpJ20k=
-github.com/B9O2/rawhttp v0.1.27 h1:vCaS7oruFRNX/ooKLTzais45PDJbij/AlHXwBBiMQJg=
-github.com/B9O2/rawhttp v0.1.27/go.mod h1:yKn81/NQpL9HOjoCqhzfFAuMetZC6Iq5ChRff6m2+F8=
-github.com/B9O2/rawhttp v0.1.28 h1:kX8T7nzKZmV9YpPGE4hDhjBh76cSJviv2lUCKatENQU=
-github.com/B9O2/rawhttp v0.1.28/go.mod h1:yKn81/NQpL9HOjoCqhzfFAuMetZC6Iq5ChRff6m2+F8=
-github.com/B9O2/rawhttp v0.1.29 h1:DlcafGz4VWhg404BB6aLDsNBiFftL/7MUrqnrNKbMac=
-github.com/B9O2/rawhttp v0.1.29/go.mod h1:yKn81/NQpL9HOjoCqhzfFAuMetZC6Iq5ChRff6m2+F8=
+github.com/B9O2/Multitasking v0.5.8 h1:ii68LGcTy2Kv/kZXncM0WcQL1GSSjEvs6XY4KrFx48U=
+github.com/B9O2/Multitasking v0.5.8/go.mod h1:SsIrn15pxyRPKtFxS5c8pQosqdpwyBRyMNTYENVmwmA=
+github.com/B9O2/NStruct v0.0.5 h1:G2VKyujJ73rBFK4+JzuaINYKJihKoLAE+/wSVRlE2ds=
+github.com/B9O2/NStruct v0.0.5/go.mod h1:n39Dq+nLHIt8Fsua8CxxyyVGk/C7Xeoqow9MAdKR13U=
 github.com/B9O2/rawhttp v0.1.30 h1:XGp0V1fc0FeizS2wNYtCz11C4+l/4ZOzZY1r3qJgVUs=
 github.com/B9O2/rawhttp v0.1.30/go.mod h1:yKn81/NQpL9HOjoCqhzfFAuMetZC6Iq5ChRff6m2+F8=
 github.com/Mzack9999/go-http-digest-auth-client v0.6.1-0.20220414142836-eb8883508809 h1:ZbFL+BDfBqegi+/Ssh7im5+aQfBRx6it+kHnC7jaDU8=
@@ -103,6 +101,8 @@ github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d/go.mod h1:uugorj
 github.com/sirupsen/logrus v1.3.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/sirupsen/logrus v1.9.0/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
+github.com/smallnest/chanx v1.2.0 h1:RLyldZBbQZ4O0dSvdkTMHo4+mDw20Bc1jXXTHf+ymZo=
+github.com/smallnest/chanx v1.2.0/go.mod h1:+4nWMF0+CqEcU74SnX2NxaGqZ8zX4pcQ8Jcs77DbX5A=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
@@ -150,6 +150,7 @@ github.com/zmap/zcrypto v0.0.0-20230422215203-9a665e1e9968/go.mod h1:xIuOvYCZX21
 github.com/zmap/zlint/v3 v3.0.0/go.mod h1:paGwFySdHIBEMJ61YjoqT4h7Ge+fdYG4sUQhnTb1lJ8=
 go.etcd.io/bbolt v1.3.7 h1:j+zJOnnEjF/kyHlDDgGnVL/AIqIJPq8UoB2GSNfkUfQ=
 go.etcd.io/bbolt v1.3.7/go.mod h1:N9Mkw9X8x5fupy0IKsmuqVtoGDyxsaDlbk4Rd05IAQw=
+go.uber.org/goleak v1.1.12 h1:gZAh5/EyT/HQwlpkCy6wTpqfH9H8Lz8zbm3dZh+OyzA=
 go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
 go.uber.org/multierr v1.11.0/go.mod h1:20+QtiLqy0Nd6FdQB9TLXag12DsQkrbs3htMFfDN80Y=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=

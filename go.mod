@@ -3,11 +3,13 @@ module github.com/B9O2/knock
 go 1.20
 
 require (
+	github.com/B9O2/Multitasking v0.5.8
 	github.com/B9O2/rawhttp v0.1.30
 	github.com/projectdiscovery/fastdialer v0.0.44
 )
 
 require (
+	github.com/B9O2/NStruct v0.0.5 // indirect
 	github.com/Mzack9999/go-http-digest-auth-client v0.6.1-0.20220414142836-eb8883508809 // indirect
 	github.com/akrylysov/pogreb v0.10.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
@@ -31,6 +33,7 @@ require (
 	github.com/quic-go/quic-go v0.37.4 // indirect
 	github.com/refraction-networking/utls v1.5.4 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
+	github.com/smallnest/chanx v1.2.0 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/tidwall/btree v1.4.3 // indirect
 	github.com/tidwall/buntdb v1.3.0 // indirect

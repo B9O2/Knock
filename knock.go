@@ -20,12 +20,7 @@ type Client struct {
 
 func (c *Client) parseOptions(opts ...options.Option) (*options.ClientOptions, error) {
 	rawOpts := &options.ClientOptions{
-		Options: &c.clientOpts,
-	}
-	rawOpts.FastDialerOpts.Dialer = &net.Dialer{
-		Timeout:   rawOpts.FastDialerOpts.DialerTimeout,
-		KeepAlive: rawOpts.FastDialerOpts.DialerKeepAlive,
-		DualStack: true,
+		Options: c.clientOpts,
 	}
 
 	for _, opt := range opts {
@@ -39,6 +34,11 @@ func (c *Client) parseOptions(opts ...options.Option) (*options.ClientOptions, e
 }
 
 func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...options.Option) (s *Snapshot, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Knock", req.URI(), r)
+		}
+	}()
 	s = &Snapshot{
 		req: req,
 		ci: &ConnectionInfo{
@@ -59,28 +59,37 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 
 	//dialer setting
 	remoteAddr := ""
-	sendOpts.FastDialerOpts.Dialer.Control = func(_, address string, c syscall.RawConn) (err error) {
+	sendOpts.Control = func(_, address string, c syscall.RawConn) (err error) {
 		remoteAddr = address
 		return nil
 	}
-	sendOpts.Middlewares = append(sendOpts.Middlewares, NewBaseMiddleware(func(opts rawhttp.Options, req *client.Request) {
-		s.ci.localAddr = append(s.ci.localAddr, opts.FastDialerOpts.Dialer.LocalAddr.(*net.TCPAddr))
+	sendOpts.Middlewares = append(sendOpts.Middlewares, NewBaseMiddleware(func(opts rawhttp.Options, fdopts fastdialer.Options, req *client.Request) {
+		if localAddr := fdopts.Dialer.LocalAddr; localAddr != nil {
+			s.ci.localAddr = append(s.ci.localAddr, localAddr.(*net.TCPAddr))
+		}
 	}))
 
 	ct := rawhttp.NewClient(sendOpts.Options)
 	defer ct.Close()
-
 	//send
+	var reader *bytes.Reader
+	if req.Body() != nil {
+		reader = bytes.NewReader(req.Body())
+	} else {
+		reader = bytes.NewReader([]byte{})
+	}
 	resp, connErr := ct.DoRawWithOptions(
 		string(req.Method()),
 		targetURL,
 		req.URI(),
 		client.Version(req.Version()),
 		req.Headers(),
-		bytes.NewReader(req.Body()),
+		reader,
 		sendOpts.Options,
 	)
-
+	if remoteAddr == "" && connErr == nil {
+		fmt.Println("ha?")
+	}
 	//after request
 	var terr error
 	if s.ci.remoteAddr, terr = net.ResolveTCPAddr("tcp", remoteAddr); terr != nil {
@@ -95,7 +104,7 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 	if connErr != nil {
 		s.ci.log("Knock", connErr.Error())
 		s.ci.err = connErr
-		return
+		return s, connErr
 	}
 
 	//Response
@@ -103,7 +112,7 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 		resp,
 	}
 
-	return
+	return s, nil
 }
 
 func NewClient(opts ...options.Option) *Client {
@@ -119,7 +128,6 @@ func NewClient(opts ...options.Option) *Client {
 		Proxy:                  "",
 		ProxyDialTimeout:       5 * time.Second,
 		SNI:                    "",
-		FastDialerOpts:         &fastdialer.DefaultOptions,
 	}
 	c := Client{
 		clientOpts: rawHTTPOpts,
