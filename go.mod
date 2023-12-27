@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/B9O2/Multitasking v0.5.8
-	github.com/B9O2/rawhttp v0.1.30
+	github.com/B9O2/rawhttp v0.1.31
 	github.com/projectdiscovery/fastdialer v0.0.44
 )
 
@@ -21,7 +21,7 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.25 // indirect
+	github.com/microcosm-cc/bluemonday v1.0.26 // indirect
 	github.com/miekg/dns v1.1.56 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/projectdiscovery/blackrock v0.0.1 // indirect
