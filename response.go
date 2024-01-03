@@ -27,6 +27,10 @@ func (r *Response) Raw() []byte {
 	return bytes.Join(lines, []byte{'\r', '\n'})
 }
 
+func (r *Response) ReadBody() []byte {
+	return r.body
+}
+
 func (r *Response) String() string {
 	return string(r.Raw())
 }

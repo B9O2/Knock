@@ -95,6 +95,9 @@ func (br *BaseRequest) Patch(r Request) {
 }
 
 func NewBaseRequest(method Method, uri string, version HTTPVersion, headers map[string][]string, body []byte) *BaseRequest {
+	if !bytes.HasSuffix(body, []byte{'\r', '\n'}) {
+		body = append(body, []byte{'\r', '\n'}...)
+	}
 	return &BaseRequest{
 		method:  method,
 		uri:     uri,
@@ -163,8 +166,11 @@ func NewBaseRequestFromRaw(raw []byte) (*BaseRequest, error) {
 	}
 
 	//Body
-	body := bytes.Join(lines, []byte{'\n'})
 
+	body := bytes.Join(lines, []byte{'\n'})
+	if !bytes.HasSuffix(body, []byte{'\r', '\n'}) {
+		body = append(body, []byte{'\r', '\n'}...)
+	}
 	return &BaseRequest{
 		method:  Method(method),
 		uri:     string(uri),

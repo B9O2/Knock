@@ -23,8 +23,8 @@ func TestNewClient(t *testing.T) {
 		body:    nil,
 	}
 	for i := 0; i < 1; i++ {
-		s, err := k.Knock("baidu.com", 443, false, req,
-			//options.SetProxyOpt("http://127.0.0.1:8080", 5*time.Second),
+		s, err := k.Knock("192.168.1.6", 8888, true, req,
+			//options.SetProxyOpt("http://127.0.0.1:8081", 5*time.Second),
 			options.SetTimeoutOpt(15*time.Second),
 			options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, fdopts fastdialer.Options, req *client.Request) {
 				fmt.Println(req.Method, req.Headers, fdopts.Dialer.LocalAddr)
