@@ -17,13 +17,13 @@ func TestNewClient(t *testing.T) {
 	k := NewClient()
 	req := &BaseRequest{
 		method:  POST,
-		uri:     "/word",
+		uri:     "/ok.php",
 		headers: nil,
 		version: HTTP_1_1,
 		body:    nil,
 	}
-	for i := 0; i < 1000; i++ {
-		s, err := k.Knock("192.168.31.98", 8080, false, req,
+	for i := 0; i < 1; i++ {
+		s, err := k.Knock("baidu.com", 443, false, req,
 			//options.SetProxyOpt("http://127.0.0.1:8080", 5*time.Second),
 			options.SetTimeoutOpt(15*time.Second),
 			options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, fdopts fastdialer.Options, req *client.Request) {
@@ -32,7 +32,6 @@ func TestNewClient(t *testing.T) {
 		)
 		if err != nil {
 			fmt.Println("fatal:", err)
-			return
 		}
 		fmt.Println(fmt.Sprintf("Connection: %s->%s by %s", s.LocalAddr(), s.RemoteAddr(), s.NetInterface().Name))
 		resp, err := s.Response()
@@ -70,7 +69,7 @@ func TestNewMultitaskingClient(t *testing.T) {
 			dc.AddTask(nil)
 		}
 	}, func(ec Multitasking.ExecuteController, a any) any {
-		s, err := k.Knock("n0p3.cn", 443, true, req,
+		s, err := k.Knock("192.168.1.6", 8888, false, req,
 			//options.SetProxyOpt("http://127.0.0.1:8081", 5*time.Second),
 			options.SetTimeoutOpt(5*time.Second),
 		)

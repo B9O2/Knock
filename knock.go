@@ -2,12 +2,14 @@ package knock
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/B9O2/knock/components"
 	"github.com/B9O2/knock/options"
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"github.com/projectdiscovery/fastdialer/fastdialer"
+	"io"
 	"net"
 	"syscall"
 	"time"
@@ -87,9 +89,6 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 		reader,
 		sendOpts.Options,
 	)
-	if remoteAddr == "" && connErr == nil {
-		fmt.Println("ha?")
-	}
 	//after request
 	var terr error
 	if s.ci.remoteAddr, terr = net.ResolveTCPAddr("tcp", remoteAddr); terr != nil {
@@ -108,10 +107,14 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 	}
 
 	//Response
-	s.resp = &Response{
-		resp,
+	if body, err := io.ReadAll(resp.Body); err != nil {
+		s.ci.err = errors.New("<Knock::ReadBody> " + err.Error())
+	} else {
+		s.resp = &Response{
+			resp,
+			body,
+		}
 	}
-
 	return s, nil
 }
 
