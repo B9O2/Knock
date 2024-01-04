@@ -38,7 +38,7 @@ func (c *Client) parseOptions(opts ...options.Option) (*options.ClientOptions, e
 func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...options.Option) (s *Snapshot, err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Println("Knock", req.URI(), r)
+			err = errors.New(fmt.Sprint(r))
 		}
 	}()
 	s = &Snapshot{
