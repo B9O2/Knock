@@ -1,9 +1,11 @@
 module github.com/B9O2/knock
 
-go 1.20
+go 1.21
+
+toolchain go1.21.6
 
 require (
-	github.com/B9O2/Multitasking v0.5.8
+	github.com/B9O2/Multitasking v0.6.6
 	github.com/B9O2/rawhttp v0.1.31
 	github.com/projectdiscovery/fastdialer v0.0.44
 )

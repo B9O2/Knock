@@ -59,9 +59,5 @@ func (s *Snapshot) Request() Request {
 }
 
 func (s *Snapshot) Response() (*Response, error) {
-	if s.ci.err != nil {
-		return nil, s.ci.err
-	} else {
-		return s.resp, nil
-	}
+	return s.resp, s.ci.err
 }

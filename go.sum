@@ -1,6 +1,8 @@
 cloud.google.com/go/compute/metadata v0.2.0/go.mod h1:zFmK7XCadkQkj6TtorcaGlCW1hT1fIilQDwofLpJ20k=
 github.com/B9O2/Multitasking v0.5.8 h1:ii68LGcTy2Kv/kZXncM0WcQL1GSSjEvs6XY4KrFx48U=
 github.com/B9O2/Multitasking v0.5.8/go.mod h1:SsIrn15pxyRPKtFxS5c8pQosqdpwyBRyMNTYENVmwmA=
+github.com/B9O2/Multitasking v0.6.6 h1:dLpv7Fh9XcrDgjal4JV1MheajyGUw6o6Fba3ynl5KW8=
+github.com/B9O2/Multitasking v0.6.6/go.mod h1:SsIrn15pxyRPKtFxS5c8pQosqdpwyBRyMNTYENVmwmA=
 github.com/B9O2/NStruct v0.0.5 h1:G2VKyujJ73rBFK4+JzuaINYKJihKoLAE+/wSVRlE2ds=
 github.com/B9O2/NStruct v0.0.5/go.mod h1:n39Dq+nLHIt8Fsua8CxxyyVGk/C7Xeoqow9MAdKR13U=
 github.com/B9O2/rawhttp v0.1.30 h1:XGp0V1fc0FeizS2wNYtCz11C4+l/4ZOzZY1r3qJgVUs=

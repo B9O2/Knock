@@ -4,15 +4,16 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
+	"net"
+	"syscall"
+	"time"
+
 	"github.com/B9O2/knock/components"
 	"github.com/B9O2/knock/options"
 	"github.com/B9O2/rawhttp"
 	"github.com/B9O2/rawhttp/client"
 	"github.com/projectdiscovery/fastdialer/fastdialer"
-	"io"
-	"net"
-	"syscall"
-	"time"
 )
 
 type Client struct {
@@ -35,12 +36,13 @@ func (c *Client) parseOptions(opts ...options.Option) (*options.ClientOptions, e
 	return rawOpts, nil
 }
 
-func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...options.Option) (s *Snapshot, err error) {
+func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts ...options.Option) (s *Snapshot, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = errors.New(fmt.Sprint(r))
 		}
 	}()
+
 	s = &Snapshot{
 		req: req,
 		ci: &ConnectionInfo{
@@ -74,11 +76,11 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 	ct := rawhttp.NewClient(sendOpts.Options)
 	defer ct.Close()
 	//send
-	var reader *bytes.Reader
+	var reader *bytes.Buffer
 	if req.Body() != nil {
-		reader = bytes.NewReader(req.Body())
+		reader = bytes.NewBuffer(req.Body())
 	} else {
-		reader = bytes.NewReader([]byte{})
+		reader = bytes.NewBuffer([]byte{})
 	}
 	resp, connErr := ct.DoRawWithOptions(
 		string(req.Method()),
@@ -89,6 +91,11 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 		reader,
 		sendOpts.Options,
 	)
+
+	// TODO 移除
+	fmt.Println(targetURL, sendOpts)
+	fmt.Println(string(req.Raw()))
+
 	//after request
 	var terr error
 	if s.ci.remoteAddr, terr = net.ResolveTCPAddr("tcp", remoteAddr); terr != nil {
@@ -107,15 +114,38 @@ func (c *Client) Knock(host string, port uint, https bool, req Request, opts ...
 	}
 
 	//Response
-	if body, err := io.ReadAll(resp.Body); err != nil {
+	body, err := ReadAll(resp.Body)
+	if err != nil {
+		s.ci.log("<Knock::ReadBody> ", err.Error())
 		s.ci.err = errors.New("<Knock::ReadBody> " + err.Error())
-	} else {
-		s.resp = &Response{
-			resp,
-			body,
+	}
+	s.resp = &Response{
+		resp,
+		body,
+	}
+
+	return s, nil
+}
+
+func ReadAll(r io.Reader) ([]byte, error) {
+	b := make([]byte, 0, 512)
+	for {
+		n, err := r.Read(b[len(b):cap(b)])
+		b = b[:len(b)+n]
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			} else {
+				fmt.Println("!!!!!!", string(b), err)
+			}
+			return b, err
+		}
+
+		if len(b) == cap(b) {
+			// Add more capacity (let append pick how much).
+			b = append(b, 0)[:len(b)]
 		}
 	}
-	return s, nil
 }
 
 func NewClient(opts ...options.Option) *Client {
