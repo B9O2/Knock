@@ -92,10 +92,6 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 		sendOpts.Options,
 	)
 
-	// TODO 移除
-	fmt.Println(targetURL, sendOpts)
-	fmt.Println(string(req.Raw()))
-
 	//after request
 	var terr error
 	if s.ci.remoteAddr, terr = net.ResolveTCPAddr("tcp", remoteAddr); terr != nil {
