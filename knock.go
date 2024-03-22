@@ -110,7 +110,7 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 	}
 
 	//Response
-	body, err := ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		s.ci.log("<Knock::ReadBody> ", err.Error())
 		s.ci.err = errors.New("<Knock::ReadBody> " + err.Error())
@@ -121,27 +121,6 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 	}
 
 	return s, nil
-}
-
-func ReadAll(r io.Reader) ([]byte, error) {
-	b := make([]byte, 0, 512)
-	for {
-		n, err := r.Read(b[len(b):cap(b)])
-		b = b[:len(b)+n]
-		if err != nil {
-			if err == io.EOF {
-				err = nil
-			} else {
-				fmt.Println("!!!!!!", string(b), err)
-			}
-			return b, err
-		}
-
-		if len(b) == cap(b) {
-			// Add more capacity (let append pick how much).
-			b = append(b, 0)[:len(b)]
-		}
-	}
 }
 
 func NewClient(opts ...options.Option) *Client {
