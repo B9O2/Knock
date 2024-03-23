@@ -18,16 +18,13 @@ import (
 func TestNewClient(t *testing.T) {
 	k := NewClient(options.SetProxyOpt("http://127.0.0.1:8083", 5*time.Second))
 	req := HTTPRequest{
-		method: POST,
-		uri:    "/index.php?s=captcha",
-		headers: map[string][]string{
-			"Content-Type": {"application/x-www-form-urlencoded"},
-		},
+		method:  POST,
+		uri:     "/index.action?redirect:http://vzibldvgdptcswc.com/",
+		headers: map[string][]string{},
 		version: HTTP_1_1,
-		body:    []byte("_method=__construct&filter[]=printf&method=get&server[REQUEST_METHOD]=uhoaycxtvnkhybm\r\n"),
 	}
 	for i := 0; i < 1; i++ {
-		s, err := k.Knock("192.168.1.13", 8080, false, req,
+		s, err := k.Knock("192.168.31.98", 8080, false, req,
 			//options.SetProxyOpt("http://127.0.0.1:8081", 5*time.Second),
 			options.SetTimeoutOpt(15*time.Second),
 			options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, fdopts fastdialer.Options, req *client.Request) {

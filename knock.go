@@ -72,7 +72,6 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 			s.ci.localAddr = append(s.ci.localAddr, localAddr.(*net.TCPAddr))
 		}
 	}))
-
 	ct := rawhttp.NewClient(sendOpts.Options)
 	defer ct.Close()
 	//send
