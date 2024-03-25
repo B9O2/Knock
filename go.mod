@@ -6,7 +6,7 @@ toolchain go1.21.6
 
 require (
 	github.com/B9O2/Multitasking v0.6.6
-	github.com/B9O2/rawhttp v0.1.31
+	github.com/B9O2/rawhttp v0.1.32
 	github.com/projectdiscovery/fastdialer v0.0.44
 )
 
