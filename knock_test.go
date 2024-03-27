@@ -18,14 +18,14 @@ import (
 func TestNewClient(t *testing.T) {
 	k := NewClient(options.SetProxyOpt("http://127.0.0.1:8083", 5*time.Second))
 	req := HTTPRequest{
-		method:  POST,
-		uri:     "/index.action?redirect:http://vzibldvgdptcswc.com/",
+		method:  GET,
+		uri:     "/users/sign_in",
 		headers: map[string][]string{},
 		version: HTTP_1_1,
 	}
 	for i := 0; i < 1; i++ {
 		s, err := k.Knock("192.168.31.98", 8080, false, req,
-			//options.SetProxyOpt("http://127.0.0.1:8081", 5*time.Second),
+			options.SetProxyOpt("http://127.0.0.1:8083", 5*time.Second),
 			options.SetTimeoutOpt(15*time.Second),
 			options.SetMiddlewareOpt("HelloWorld", NewBaseMiddleware(func(opts rawhttp.Options, fdopts fastdialer.Options, req *client.Request) {
 				fmt.Println(req.Method, req.Headers, fdopts.Dialer.LocalAddr)
