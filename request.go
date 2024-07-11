@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/B9O2/rawhttp/client"
+	"github.com/B9O2/knock/rawhttp/client"
 )
 
 type Method string

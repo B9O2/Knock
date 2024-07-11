@@ -2,6 +2,7 @@ package knock
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -10,33 +11,32 @@ import (
 	"time"
 
 	"github.com/B9O2/knock/components"
-	"github.com/B9O2/knock/options"
-	"github.com/B9O2/rawhttp"
-	"github.com/B9O2/rawhttp/client"
+	"github.com/B9O2/knock/rawhttp"
 	"github.com/projectdiscovery/fastdialer/fastdialer"
 )
 
 type Client struct {
-	clientOpts rawhttp.Options
-	opts       []options.Option
+	defaultOpts *rawhttp.Options
 }
 
-func (c *Client) parseOptions(opts ...options.Option) (*options.ClientOptions, error) {
-	rawOpts := &options.ClientOptions{
-		Options: c.clientOpts,
+func (c *Client) SetDefaultOptions(opts *rawhttp.Options) {
+	if opts != nil {
+		c.defaultOpts = opts
+	} else {
+		c.defaultOpts = rawhttp.DefaultOptions
 	}
-
-	for _, opt := range opts {
-		err := opt.Handle(rawOpts)
-		if err != nil {
-			return rawOpts, err
-		}
-	}
-
-	return rawOpts, nil
 }
 
-func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts ...options.Option) (s *Snapshot, err error) {
+func (c *Client) DefaultOptions() rawhttp.Options {
+	return *c.defaultOpts
+}
+
+func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts *KnockOptions) (s *Snapshot, err error) {
+	var deadline time.Time
+	if opts.Timeout != 0 {
+		deadline = time.Now().Add(opts.Timeout)
+	}
+
 	defer func() {
 		if r := recover(); r != nil {
 			err = errors.New(fmt.Sprint(r))
@@ -56,23 +56,30 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 	}
 
 	targetURL := fmt.Sprintf("%s://%s:%d", protocol, host, port)
-	sendOpts, err := c.parseOptions(append(c.opts, opts...)...)
-	if err != nil {
-		return
-	}
+	clentOpts := c.defaultOpts
 
 	//dialer setting
 	remoteAddr := ""
-	sendOpts.Control = func(_, address string, c syscall.RawConn) (err error) {
-		remoteAddr = address
-		return nil
+	dialerOpts := fastdialer.DefaultOptions
+
+	dialerOpts.Dialer = &net.Dialer{
+		Deadline: deadline,
+		ControlContext: func(ctx context.Context, network, address string, c syscall.RawConn) error {
+			remoteAddr = address
+			return nil
+		},
 	}
-	sendOpts.Middlewares = append(sendOpts.Middlewares, NewBaseMiddleware(func(opts rawhttp.Options, fdopts fastdialer.Options, req *client.Request) {
-		if localAddr := fdopts.Dialer.LocalAddr; localAddr != nil {
-			s.ci.localAddr = append(s.ci.localAddr, localAddr.(*net.TCPAddr))
-		}
-	}))
-	ct := rawhttp.NewClient(sendOpts.Options)
+	dialer, err := fastdialer.NewDialer(dialerOpts)
+	clentOpts.FastDialer = dialer
+
+	if len(opts.HTTPProxyAddr) > 0 {
+		clentOpts.Proxy = opts.HTTPProxyAddr
+	}
+	if int64(opts.Timeout) > 0 {
+		clentOpts.ProxyDialTimeout = opts.Timeout
+	}
+
+	ct := rawhttp.NewClient(clentOpts)
 	defer ct.Close()
 	//send
 	var reader *bytes.Buffer
@@ -81,14 +88,12 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 	} else {
 		reader = bytes.NewBuffer([]byte{})
 	}
-	resp, connErr := ct.DoRawWithOptions(
+	resp, connErr := ct.DoRaw(
 		string(req.Method()),
 		targetURL,
 		req.URI(),
-		client.Version(req.Version()),
 		req.Headers(),
 		reader,
-		sendOpts.Options,
 	)
 
 	//after request
@@ -122,23 +127,22 @@ func (c *Client) Knock(host string, port uint, https bool, req HTTPRequest, opts
 	return s, nil
 }
 
-func NewClient(opts ...options.Option) *Client {
-	rawHTTPOpts := rawhttp.Options{
-		Timeout:                5 * time.Second,
-		FollowRedirects:        true,
-		MaxRedirects:           10,
-		AutomaticHostHeader:    true,
-		AutomaticContentLength: true,
-		CustomHeaders:          nil,
-		ForceReadAllBody:       false,
-		CustomRawBytes:         nil,
-		Proxy:                  "",
-		ProxyDialTimeout:       5 * time.Second,
-		SNI:                    "",
-	}
+func NewClient() *Client {
+	// rawHTTPOpts := rawhttp.Options{
+	// 	Timeout:                5 * time.Second,
+	// 	FollowRedirects:        true,
+	// 	MaxRedirects:           10,
+	// 	AutomaticHostHeader:    true,
+	// 	AutomaticContentLength: true,
+	// 	CustomHeaders:          nil,
+	// 	ForceReadAllBody:       false,
+	// 	CustomRawBytes:         nil,
+	// 	Proxy:                  "",
+	// 	ProxyDialTimeout:       5 * time.Second,
+	// 	SNI:                    "",
+	// }
 	c := Client{
-		clientOpts: rawHTTPOpts,
-		opts:       opts,
+		defaultOpts: rawhttp.DefaultOptions,
 	}
 	return &c
 }

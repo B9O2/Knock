@@ -1,8 +1,8 @@
 package knock
 
 import (
-	"github.com/B9O2/rawhttp"
-	"github.com/B9O2/rawhttp/client"
+	"github.com/B9O2/knock/rawhttp"
+	"github.com/B9O2/knock/rawhttp/client"
 	"github.com/projectdiscovery/fastdialer/fastdialer"
 )
 
